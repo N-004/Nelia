@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Prevenir a Malária</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Public+Sans:wght@400;600&display=swap">
+<style>
+/* Layout: cabeçalho fixo com menu de 4 separadores; cada separador é uma "página" (Início, Conteúdo, Galeria, Contacto) */
+:root {
+  --bg: #f3f6f9;
+  --surface: #ffffff;
+  --panel: #e4edf5;
+  --fg: #0f2233;
+  --muted: #4b6074;
+  --line: #cfdbe6;
+  --accent: #1c5d99;
+  --accent-fg: #ffffff;
+  --warm: #d9650f;
+  --warm-ink: #a84a05;
+  --warm-bg: #fdebdc;
+  --ok: #1f7a4d;
+  --err: #b3261e;
+  --font-display: "Archivo", "Arial Black", system-ui, sans-serif;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1722; --surface: #13273a; --panel: #183149; --fg: #e7eff7; --muted: #9db3c7;
+    --line: #27425c; --accent: #6fb1ee; --accent-fg: #06192b; --warm: #f0903f; --warm-ink: #f4a867;
+    --warm-bg: #3a2411; --ok: #62c58f; --err: #ff8a80;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1722; --surface: #13273a; --panel: #183149; --fg: #e7eff7; --muted: #9db3c7;
+  --line: #27425c; --accent: #6fb1ee; --accent-fg: #06192b; --warm: #f0903f; --warm-ink: #f4a867;
+  --warm-bg: #3a2411; --ok: #62c58f; --err: #ff8a80;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.6; padding-inline: 1rem; }
+.wrap { max-width: 66rem; margin-inline: auto; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--warm); outline-offset: 2px; border-radius: 4px; }
+
+header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); margin-inline: -1rem; padding-inline: 1rem; }
+header .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.25rem 1.5rem; padding-block: 0.6rem; }
+.brand { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; color: var(--fg); text-decoration: none; }
+.brand span { color: var(--warm-ink); }
+nav { display: flex; flex-wrap: wrap; gap: 0.1rem 0.4rem; }
+nav a { color: var(--muted); text-decoration: none; font-weight: 600; font-size: 0.95rem; padding: 0.35rem 0.7rem; border-radius: 999px; }
+nav a:hover { color: var(--fg); background: var(--panel); }
+nav a[aria-current="page"] { background: var(--accent); color: var(--accent-fg); }
+
+.view { padding-block: 2rem 3rem; }
+.kicker { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; color: var(--warm-ink); margin-bottom: 0.6rem; }
+.view > .wrap > h1 { font-weight: 800; font-size: clamp(1.9rem, 5vw, 2.8rem); }
+.sub { color: var(--muted); max-width: 40rem; margin-top: 0.75rem; }
+h2.sec { font-weight: 800; font-size: clamp(1.4rem, 3.5vw, 1.8rem); margin: 2.5rem 0 1rem; }
+
+.hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem 3rem; align-items: center; padding-top: 1rem; }
+.hero > * { min-width: 0; }
+.hero h1 { font-weight: 800; font-size: clamp(2.1rem, 5.5vw, 3.4rem); }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.lead { color: var(--muted); font-size: 1.15rem; margin-top: 1.1rem; max-width: 34rem; }
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.6rem; }
+.btn { display: inline-block; font: inherit; font-weight: 600; padding: 0.7rem 1.3rem; border-radius: 0.5rem; text-decoration: none; border: 2px solid var(--accent); cursor: pointer; }
+.btn.primary { background: var(--accent); color: var(--accent-fg); }
+.btn.ghost { background: transparent; color: var(--accent); }
+.banner { width: 100%; height: auto; display: block; border-radius: 1rem; }
+
+.ideas { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1.25rem; margin-top: 1rem; }
+.idea { background: var(--surface); border: 1px solid var(--line); border-radius: 0.75rem; padding: 1.2rem 1.3rem; min-width: 0; }
+.idea h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
+.idea p { color: var(--muted); }
+.idea .label { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; color: var(--accent); margin-bottom: 0.4rem; }
+
+.callout { background: var(--warm-bg); border: 1px solid var(--warm); border-radius: 0.75rem; padding: 1rem 1.25rem; margin-top: 2rem; }
+.article + .cards { margin-top: 1.25rem; }
+.steps { list-style: none; margin: 0; padding: 0; counter-reset: passo; display: grid; gap: 1rem; max-width: 46rem; }
+.steps li { counter-increment: passo; display: grid; grid-template-columns: 2.4rem 1fr; gap: 0 1rem; align-items: start; }
+.steps li::before { content: counter(passo); font-family: var(--font-display); font-weight: 800; background: var(--accent); color: var(--accent-fg); width: 2.4rem; height: 2.4rem; border-radius: 50%; display: grid; place-items: center; }
+.steps li > div { min-width: 0; }
+.steps strong { display: block; }
+.steps span { color: var(--muted); }
+.faq { max-width: 46rem; }
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 0.75rem; padding: 0.9rem 1.2rem; }
+details + details { margin-top: 0.75rem; }
+summary { cursor: pointer; font-weight: 600; }
+details p { color: var(--muted); margin-top: 0.6rem; }
+.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; max-width: 46rem; }
+.checks li { display: grid; grid-template-columns: 1.6rem 1fr; gap: 0.5rem; }
+.checks li::before { content: "✓"; color: var(--ok); font-weight: 800; }
+.callout strong { color: var(--warm-ink); }
+
+.article { max-width: 42rem; }
+.article p + p { margin-top: 1rem; }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 0.75rem; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 34rem; }
+th, td { text-align: left; vertical-align: top; padding: 0.8rem 1rem; border-bottom: 1px solid var(--line); }
+th { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); background: var(--panel); }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-weight: 600; }
+.danger td { background: var(--warm-bg); }
+.danger td:first-child { color: var(--warm-ink); }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1.25rem; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 0.75rem; padding: 1.2rem 1.3rem; min-width: 0; }
+.card h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
+.card p { color: var(--muted); }
+
+.gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1.25rem; }
+.gallery figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 0.75rem; overflow: hidden; min-width: 0; }
+.gallery svg { display: block; width: 100%; height: auto; }
+.gallery figcaption { padding: 0.8rem 1rem 1rem; font-size: 0.95rem; }
+.gallery figcaption strong { display: block; margin-bottom: 0.15rem; }
+.gallery figcaption span { color: var(--muted); }
+
+.news { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
+.news li { display: grid; grid-template-columns: 6.5rem 1fr; gap: 0.25rem 1.25rem; background: var(--surface); border: 1px solid var(--line); border-radius: 0.75rem; padding: 1rem 1.25rem; }
+.news li > * { min-width: 0; }
+.news time { font-family: var(--font-display); font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.news h3 { font-size: 1.05rem; margin-bottom: 0.2rem; }
+.news p { color: var(--muted); }
+.tag { display: inline-block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; background: var(--panel); color: var(--muted); border-radius: 999px; padding: 0.1rem 0.6rem; margin-left: 0.4rem; vertical-align: middle; }
+
+.contact { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem 3rem; margin-top: 1.5rem; }
+.contact > * { min-width: 0; }
+form { display: grid; gap: 1.1rem; background: var(--surface); border: 1px solid var(--line); border-radius: 0.75rem; padding: 1.4rem; }
+label { display: block; font-weight: 600; margin-bottom: 0.3rem; }
+input, textarea { width: 100%; font: inherit; color: var(--fg); background: var(--bg); border: 1.5px solid var(--line); border-radius: 0.5rem; padding: 0.65rem 0.8rem; }
+textarea { min-height: 8rem; resize: vertical; }
+input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: var(--err); }
+.erro { color: var(--err); font-size: 0.9rem; margin-top: 0.3rem; min-height: 1.2em; }
+.thanks { background: var(--surface); border: 1px solid var(--ok); border-radius: 0.75rem; padding: 1.4rem; display: grid; gap: 0.75rem; justify-items: start; }
+.thanks h2 { font-size: 1.4rem; color: var(--ok); }
+.thanks p { color: var(--muted); }
+.info { display: grid; gap: 1.1rem; align-content: start; }
+.info dl { margin: 0; display: grid; gap: 1rem; }
+.info dt { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; color: var(--muted); }
+.info dd { margin: 0.1rem 0 0; font-weight: 600; }
+.info .hint { font-size: 0.9rem; color: var(--muted); }
+
+footer { border-top: 1px solid var(--line); padding-block: 1.5rem 2rem; color: var(--muted); font-size: 0.9rem; }
+
+/* ilustrações */
+.f-panel { fill: var(--panel); } .f-surface { fill: var(--surface); } .f-fg { fill: var(--fg); }
+.f-accent { fill: var(--accent); } .f-warm { fill: var(--warm); }
+.net { fill: var(--accent); fill-opacity: 0.16; stroke: var(--accent); stroke-width: 3; stroke-linejoin: round; }
+.mesh { stroke: var(--accent); stroke-width: 1; stroke-opacity: 0.55; fill: none; }
+.line-a { stroke: var(--accent); stroke-width: 3; fill: none; stroke-linecap: round; }
+.line-fg { stroke: var(--fg); stroke-width: 2; fill: none; stroke-linecap: round; }
+.edge { stroke: var(--line); stroke-width: 2; }
+
+@media (max-width: 42rem) {
+  .hero, .contact { grid-template-columns: 1fr; }
+  .news li { grid-template-columns: 1fr; }
+  .view { padding-block: 1.5rem 2.25rem; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id="malha" width="12" height="12" patternUnits="userSpaceOnUse">
+      <path d="M0 0L12 12M12 0L0 12" class="mesh"/>
+    </pattern>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="#inicio">Prevenir a <span>Malária</span></a>
+    <nav aria-label="Menu principal">
+      <a href="#inicio">Início</a>
+      <a href="#conteudo">Conteúdo</a>
+      <a href="#galeria">Galeria</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- PÁGINA 1: INÍCIO -->
+<section class="view" id="inicio">
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <p class="kicker">Campanha comunitária de saúde</p>
+        <h1>Uma noite sob o mosquiteiro <em>protege toda a família.</em></h1>
+        <p class="lead">Bem-vindo. Este site explica como se apanha a malária, como reconhecer os primeiros sinais e o que cada pessoa do bairro pode fazer para a evitar.</p>
+        <div class="actions">
+          <a class="btn primary" href="#conteudo">Aprender a prevenir</a>
+          <a class="btn ghost" href="#contacto">Falar connosco</a>
+        </div>
+      </div>
+      <svg class="banner" viewBox="0 0 420 300" role="img" aria-label="Cama com mosquiteiro pendurado e um mosquito do lado de fora">
+        <rect width="420" height="300" rx="16" class="f-panel"/>
+        <circle cx="344" cy="56" r="24" class="f-warm"/>
+        <circle cx="354" cy="50" r="22" class="f-panel"/>
+        <circle cx="58" cy="52" r="2.5" class="f-fg" fill-opacity="0.6"/>
+        <circle cx="112" cy="92" r="2" class="f-fg" fill-opacity="0.6"/>
+        <circle cx="286" cy="34" r="2.5" class="f-fg" fill-opacity="0.6"/>
+        <circle cx="388" cy="118" r="2" class="f-fg" fill-opacity="0.6"/>
+        <rect x="80" y="248" width="9" height="24" class="f-fg"/>
+        <rect x="331" y="248" width="9" height="24" class="f-fg"/>
+        <rect x="70" y="226" width="280" height="22" rx="4" class="f-fg"/>
+        <rect x="84" y="204" width="252" height="22" rx="9" class="f-surface" stroke="var(--line)" stroke-width="2"/>
+        <ellipse cx="130" cy="200" rx="36" ry="12" class="f-surface" stroke="var(--line)" stroke-width="2"/>
+        <line x1="210" y1="0" x2="210" y2="26" class="line-fg"/>
+        <path d="M210 36 L336 228 L84 228 Z" class="net"/>
+        <path d="M210 36 L336 228 L84 228 Z" fill="url(#malha)"/>
+        <circle cx="210" cy="32" r="8" class="line-a"/>
+        <ellipse cx="376" cy="172" rx="13" ry="5" class="f-fg"/>
+        <ellipse cx="374" cy="160" rx="11" ry="5" class="f-accent" fill-opacity="0.55" transform="rotate(-28 374 160)"/>
+        <ellipse cx="384" cy="161" rx="9" ry="4" class="f-accent" fill-opacity="0.55" transform="rotate(24 384 161)"/>
+        <line x1="363" y1="173" x2="350" y2="178" class="line-fg"/>
+        <path d="M368 177 L364 188 M376 177 L376 189 M384 176 L388 187" class="line-fg"/>
+      </svg>
+    </div>
+
+    <h2 class="sec">Três ideias para guardar</h2>
+    <div class="ideas">
+      <article class="idea">
+        <span class="label">Como se apanha</span>
+        <h3>Pela picada do mosquito</h3>
+        <p>A malária passa para as pessoas pela picada da fêmea do mosquito Anopheles, que pica sobretudo ao anoitecer e de madrugada.</p>
+      </article>
+      <article class="idea">
+        <span class="label">Onde nasce</span>
+        <h3>Na água parada</h3>
+        <p>Pneus velhos, latas, baldes e poças dão ao mosquito um lugar para se reproduzir perto de casa.</p>
+      </article>
+      <article class="idea">
+        <span class="label">O que fazer</span>
+        <h3>Prevenir e testar cedo</h3>
+        <p>Dormir sob mosquiteiro todas as noites e, com febre, fazer o teste na unidade sanitária mais próxima.</p>
+      </article>
+    </div>
+
+    <h2 class="sec">Porque escolhemos este tema</h2>
+    <div class="article">
+      <p>A malária é uma das doenças mais comuns no nosso país e afecta sobretudo crianças pequenas e mulheres grávidas. Quando é tratada cedo, cura-se, e muitos casos podem ser evitados com cuidados simples em casa.</p>
+      <p>Somos alunos da 12ª classe e fizemos este site para explicar, de forma clara, o que é a malária, como evitá-la e quando pedir ajuda. O objectivo é que qualquer pessoa do bairro, de qualquer idade, entenda e partilhe esta informação.</p>
+    </div>
+
+    <h2 class="sec">O que encontra neste site</h2>
+    <div class="cards">
+      <article class="card"><h3>Conteúdo</h3><p>O que é a malária, como se espalha, sinais, prevenção, tratamento e perguntas frequentes.</p><p><a href="#conteudo">Ir para o Conteúdo</a></p></article>
+      <article class="card"><h3>Galeria e notícias</h3><p>Imagens dos cuidados que protegem a família e os avisos das actividades da campanha.</p><p><a href="#galeria">Ir para a Galeria</a></p></article>
+      <article class="card"><h3>Contacto</h3><p>Escreva-nos para tirar dúvidas ou ajudar na campanha, e conheça a equipa do projecto.</p><p><a href="#contacto">Ir para o Contacto</a></p></article>
+    </div>
+
+    <p class="callout"><strong>Com febre?</strong> Não espere nem se automedique. Vá à unidade sanitária para fazer o teste e receber o tratamento certo.</p>
+  </div>
+</section>
+
+<!-- PÁGINA 2: CONTEÚDO -->
+<section class="view" id="conteudo">
+  <div class="wrap">
+    <p class="kicker">Conteúdo informativo</p>
+    <h1>Tudo o que a comunidade precisa de saber</h1>
+    <p class="sub">Artigos curtos e tabelas para consultar com a família. Esta informação não substitui a consulta com um profissional de saúde.</p>
+
+    <h2 class="sec">O que é a malária</h2>
+    <div class="article">
+      <p>A malária é uma doença causada por parasitas chamados Plasmodium. Eles entram no corpo quando a fêmea do mosquito Anopheles pica uma pessoa. A doença não passa de uma pessoa para outra pelo contacto no dia-a-dia, como um aperto de mão ou a partilha de um prato.</p>
+      <p>Os sinais costumam aparecer alguns dias a poucas semanas depois da picada. Tratada cedo, a malária cura-se. Sem tratamento, pode tornar-se grave e pôr a vida em risco, sobretudo nas crianças pequenas e nas mulheres grávidas.</p>
+    </div>
+
+    <h2 class="sec">Como a malária se espalha</h2>
+    <ol class="steps">
+      <li><div><strong>A picada de uma pessoa doente</strong><span>Uma fêmea de mosquito Anopheles pica uma pessoa com malária e leva os parasitas no sangue.</span></div></li>
+      <li><div><strong>O parasita cresce no mosquito</strong><span>Durante alguns dias, os parasitas desenvolvem-se dentro do mosquito.</span></div></li>
+      <li><div><strong>A picada de outra pessoa</strong><span>O mosquito pica uma pessoa saudável e passa-lhe os parasitas.</span></div></li>
+      <li><div><strong>O parasita multiplica-se no corpo</strong><span>Os parasitas vão ao fígado e depois ao sangue, onde se multiplicam e destroem glóbulos vermelhos.</span></div></li>
+      <li><div><strong>Aparecem os sinais</strong><span>A pessoa fica com febre e outros sinais. Se for picada de novo, pode infectar outros mosquitos e o ciclo continua.</span></div></li>
+    </ol>
+
+    <h2 class="sec">Sinais e quando agir</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Sinal</th><th>O que observar</th><th>O que fazer</th></tr></thead>
+        <tbody>
+          <tr><td>Febre</td><td>Temperatura alta, calafrios e suores</td><td>Ir à unidade sanitária e fazer o teste</td></tr>
+          <tr><td>Dor de cabeça e no corpo</td><td>Cansaço, dores nos músculos, falta de apetite</td><td>Descansar, beber líquidos e fazer o teste</td></tr>
+          <tr><td>Vómitos</td><td>Dificuldade em beber e em tomar medicamentos</td><td>Procurar a unidade sanitária no mesmo dia</td></tr>
+          <tr class="danger"><td>Sinais de perigo</td><td>Convulsões, muita sonolência, respiração difícil, recusa em beber</td><td>Emergência: levar à unidade sanitária de imediato</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sec">Como nos protegemos</h2>
+    <div class="cards">
+      <article class="card"><h3>Mosquiteiro tratado</h3><p>Dormir sob o mosquiteiro todas as noites, com as bordas presas debaixo do colchão. Repare os buracos.</p></article>
+      <article class="card"><h3>Eliminar água parada</h3><p>Esvaziar baldes, latas e pneus, e tapar os depósitos de água. Sem água parada, o mosquito não se reproduz.</p></article>
+      <article class="card"><h3>Telas nas janelas</h3><p>Telas de rede nas janelas e portas impedem a entrada do mosquito em casa ao fim da tarde.</p></article>
+      <article class="card"><h3>Roupa que cobre</h3><p>Ao anoitecer, usar camisa de manga comprida e calças. Quanto menos pele à vista, menos picadas.</p></article>
+      <article class="card"><h3>Repelente</h3><p>Aplicar nas partes descobertas, seguindo as indicações do rótulo, sobretudo ao ar livre à noite.</p></article>
+      <article class="card"><h3>Equipas de saúde</h3><p>Quando as brigadas de saúde visitarem o bairro para pulverizar as casas, receba-as e colabore.</p></article>
+    </div>
+
+    <h2 class="sec">Mitos e factos</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Mito</th><th>Facto</th></tr></thead>
+        <tbody>
+          <tr><td>Apanha-se a malária por beber água suja.</td><td>Não. Apanha-se pela picada do mosquito. A água suja causa outras doenças.</td></tr>
+          <tr><td>Só há malária na época das chuvas.</td><td>As chuvas deixam mais água parada e mais mosquitos, mas a malária pode aparecer em qualquer altura do ano.</td></tr>
+          <tr><td>Com febre basta tomar um comprimido qualquer.</td><td>Não. Só o teste mostra se é malária, e o tratamento deve ser indicado por um profissional de saúde.</td></tr>
+          <tr><td>Quem já teve malária nunca mais a apanha.</td><td>Pode apanhá-la outra vez. Continue a proteger-se.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sec">Quem corre mais risco</h2>
+    <div class="article">
+      <p>Qualquer pessoa pode apanhar malária, mas estes grupos ficam doentes com mais gravidade. Neles, qualquer febre deve ser vista na unidade sanitária no mesmo dia.</p>
+    </div>
+    <div class="cards">
+      <article class="card"><h3>Crianças pequenas</h3><p>Têm poucas defesas e podem piorar muito depressa. Com febre, leve a criança à unidade sanitária no mesmo dia.</p></article>
+      <article class="card"><h3>Mulheres grávidas</h3><p>A malária na gravidez pode prejudicar a mãe e o bebé. Nas consultas pré-natais, pergunte à equipa de saúde sobre a protecção recomendada.</p></article>
+      <article class="card"><h3>Pessoas com defesas fracas</h3><p>Quem tem outras doenças que enfraquecem o corpo deve ter ainda mais cuidado e procurar ajuda logo aos primeiros sinais.</p></article>
+    </div>
+
+    <h2 class="sec">Teste e tratamento</h2>
+    <div class="article">
+      <p>O diagnóstico faz-se com um teste rápido, que usa uma pequena gota de sangue do dedo e dá o resultado em poucos minutos. O teste é feito na unidade sanitária.</p>
+      <p>Se der positivo, o profissional de saúde indica o medicamento certo e explica como tomar. Tome todas as doses até ao fim, mesmo que a febre desapareça, para a doença não voltar. Nunca tome medicamentos que sobraram de outra pessoa.</p>
+    </div>
+
+    <h2 class="sec">Perguntas frequentes</h2>
+    <div class="faq">
+      <details><summary>Posso apanhar malária dormindo com a janela fechada?</summary><p>Sim, se o mosquito já estiver dentro de casa. Por isso é importante dormir sob o mosquiteiro, mesmo com as janelas fechadas.</p></details>
+      <details><summary>O mosquiteiro ainda protege se tiver um buraco?</summary><p>Os buracos reduzem a protecção. Remende o buraco e peça um mosquiteiro novo nas campanhas de distribuição ou na unidade sanitária.</p></details>
+      <details><summary>A malária passa de pessoa para pessoa?</summary><p>Não pelo contacto do dia-a-dia, como abraçar ou partilhar comida. A transmissão acontece pela picada do mosquito.</p></details>
+      <details><summary>Posso usar o mosquiteiro para outra coisa?</summary><p>Não. Use-o só para dormir. Se for usado para pesca, por exemplo, estraga-se e deixa de proteger.</p></details>
+      <details><summary>E se a febre não passar?</summary><p>Volte à unidade sanitária. Uma febre que continua ou que piora precisa de ser avaliada outra vez.</p></details>
+    </div>
+
+    <h2 class="sec">O que fazer esta semana</h2>
+    <ul class="checks">
+      <li>Ver se todos em casa dormem sob um mosquiteiro sem buracos.</li>
+      <li>Esvaziar baldes, latas e pneus com água parada à volta de casa.</li>
+      <li>Tapar os depósitos de água.</li>
+      <li>Conversar com a família e os vizinhos sobre os sinais de alerta da malária.</li>
+      <li>Saber onde fica a unidade sanitária mais próxima.</li>
+    </ul>
+
+    <h2 class="sec">Onde saber mais</h2>
+    <div class="article">
+      <p>Para aprofundar o tema, consulte a Organização Mundial da Saúde (OMS) e o Ministério da Saúde de Moçambique (MISAU), ou pergunte na unidade sanitária do seu bairro.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PÁGINA 3: GALERIA E NOTÍCIAS -->
+<section class="view" id="galeria">
+  <div class="wrap">
+    <p class="kicker">Galeria e notícias</p>
+    <h1>Imagens da campanha e avisos recentes</h1>
+    <p class="sub">Ilustrações dos cuidados que protegem a família e os próximos encontros da campanha.</p>
+
+    <h2 class="sec">Galeria</h2>
+    <div class="gallery">
+      <figure>
+        <svg viewBox="0 0 160 120" role="img" aria-label="Cama com mosquiteiro">
+          <rect width="160" height="120" class="f-panel"/>
+          <line x1="80" y1="0" x2="80" y2="10" class="line-fg"/>
+          <path d="M80 18 L132 88 L28 88 Z" class="net"/>
+          <path d="M80 18 L132 88 L28 88 Z" fill="url(#malha)"/>
+          <circle cx="80" cy="14" r="5" class="line-a"/>
+          <rect x="20" y="88" width="120" height="10" rx="3" class="f-fg"/>
+          <rect x="26" y="98" width="6" height="14" class="f-fg"/>
+          <rect x="128" y="98" width="6" height="14" class="f-fg"/>
+        </svg>
+        <figcaption><strong>Mosquiteiro</strong><span>Bem preso e sem buracos, todas as noites.</span></figcaption>
+      </figure>
+      <figure>
+        <svg viewBox="0 0 160 120" role="img" aria-label="Balde com água parada">
+          <rect width="160" height="120" class="f-panel"/>
+          <path d="M80 12 Q93 30 80 37 Q67 30 80 12 Z" class="f-warm"/>
+          <path d="M46 48 L114 48 L105 106 L55 106 Z" class="f-accent"/>
+          <ellipse cx="80" cy="48" rx="34" ry="8" class="f-surface"/>
+          <path d="M64 48 Q72 44 80 48 T96 48" class="line-a"/>
+          <line x1="30" y1="108" x2="130" y2="108" class="edge"/>
+        </svg>
+        <figcaption><strong>Água parada</strong><span>Esvaziar e tapar baldes, latas e pneus.</span></figcaption>
+      </figure>
+      <figure>
+        <svg viewBox="0 0 160 120" role="img" aria-label="Camisa de manga comprida">
+          <rect width="160" height="120" class="f-panel"/>
+          <path d="M52 24 L70 16 Q80 28 90 16 L108 24 L134 54 L118 68 L108 56 L108 104 L52 104 L52 56 L42 68 L26 54 Z" class="f-accent"/>
+          <path d="M70 16 Q80 28 90 16" class="line-fg"/>
+          <line x1="80" y1="28" x2="80" y2="104" class="edge"/>
+        </svg>
+        <figcaption><strong>Roupa que cobre</strong><span>Manga comprida ao fim da tarde.</span></figcaption>
+      </figure>
+      <figure>
+        <svg viewBox="0 0 160 120" role="img" aria-label="Unidade sanitária com cruz">
+          <rect width="160" height="120" class="f-panel"/>
+          <path d="M28 52 L80 20 L132 52 Z" class="f-accent"/>
+          <rect x="40" y="52" width="80" height="54" class="f-surface" stroke="var(--accent)" stroke-width="3"/>
+          <rect x="77" y="56" width="6" height="16" class="f-warm"/>
+          <rect x="72" y="61" width="16" height="6" class="f-warm"/>
+          <rect x="70" y="78" width="20" height="28" class="f-panel"/>
+          <line x1="20" y1="108" x2="140" y2="108" class="edge"/>
+        </svg>
+        <figcaption><strong>Unidade sanitária</strong><span>Com febre, faça o teste sem demora.</span></figcaption>
+      </figure>
+      <figure>
+        <svg viewBox="0 0 160 120" role="img" aria-label="Janela com tela de rede">
+          <rect width="160" height="120" class="f-panel"/>
+          <rect x="38" y="14" width="84" height="92" class="f-surface" stroke="var(--accent)" stroke-width="3"/>
+          <rect x="46" y="22" width="68" height="76" class="net"/>
+          <rect x="46" y="22" width="68" height="76" fill="url(#malha)"/>
+          <line x1="80" y1="22" x2="80" y2="98" class="line-fg"/>
+          <line x1="46" y1="60" x2="114" y2="60" class="line-fg"/>
+        </svg>
+        <figcaption><strong>Telas nas janelas</strong><span>Impedem o mosquito de entrar em casa.</span></figcaption>
+      </figure>
+      <figure>
+        <svg viewBox="0 0 160 120" role="img" aria-label="Pneu velho com água parada">
+          <rect width="160" height="120" class="f-panel"/>
+          <circle cx="80" cy="62" r="38" class="f-fg"/>
+          <circle cx="80" cy="62" r="20" class="f-panel"/>
+          <ellipse cx="80" cy="62" rx="16" ry="5" class="f-accent"/>
+          <line x1="24" y1="104" x2="136" y2="104" class="edge"/>
+        </svg>
+        <figcaption><strong>Pneu velho</strong><span>Guarda água da chuva. Vire-o ou elimine-o.</span></figcaption>
+      </figure>
+    </div>
+
+    <h2 class="sec">Avisos recentes</h2>
+    <ul class="news">
+      <li>
+        <time datetime="2026-10-14">14 Out</time>
+        <div><h3>Palestra: como proteger a família <span class="tag">Exemplo</span></h3><p>Conversa aberta à comunidade sobre mosquiteiros, água parada e sinais de alerta.</p></div>
+      </li>
+      <li>
+        <time datetime="2026-10-17">17 Out</time>
+        <div><h3>Dia de limpeza do bairro <span class="tag">Exemplo</span></h3><p>Recolha de pneus, latas e recipientes onde se acumula água parada.</p></div>
+      </li>
+      <li>
+        <time datetime="2026-10-24">24 Out</time>
+        <div><h3>Exposição de cartazes na escola <span class="tag">Exemplo</span></h3><p>Cartazes feitos pelos alunos sobre a prevenção da malária, abertos a todos.</p></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- PÁGINA 4: CONTACTO -->
+<section class="view" id="contacto">
+  <div class="wrap">
+    <p class="kicker">Contacto</p>
+    <h1>Tem uma dúvida ou quer ajudar?</h1>
+    <p class="sub">Escreva-nos. Preencha os três campos e carregue em Enviar mensagem.</p>
+
+    <div class="contact">
+      <div>
+        <form id="form" novalidate>
+          <div>
+            <label for="nome">Nome</label>
+            <input id="nome" name="nome" type="text" autocomplete="name">
+            <p class="erro" id="erro-nome" role="alert"></p>
+          </div>
+          <div>
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" autocomplete="email">
+            <p class="erro" id="erro-email" role="alert"></p>
+          </div>
+          <div>
+            <label for="mensagem">Mensagem</label>
+            <textarea id="mensagem" name="mensagem"></textarea>
+            <p class="erro" id="erro-mensagem" role="alert"></p>
+          </div>
+          <button class="btn primary" type="submit">Enviar mensagem</button>
+        </form>
+        <div class="thanks" id="obrigado" hidden role="status">
+          <h2 id="obrigado-titulo">Obrigado!</h2>
+          <p>A sua mensagem foi validada. Neste projecto escolar o envio é simulado e a mensagem não sai deste ecrã.</p>
+          <button class="btn ghost" type="button" id="outra">Escrever outra mensagem</button>
+        </div>
+      </div>
+
+      <aside class="info" aria-label="Informações de contacto">
+        <dl>
+          <dt>Escola</dt>
+          <dd>Escola Secundária Marien Ngouabi</dd>
+          <dt>Professor</dt>
+          <dd>Lázaro Jr</dd>
+          <dt>Rede social (simulada)</dt>
+          <dd>@prevenirmalaria.mz</dd>
+          <dt>Equipa do projecto</dt>
+          <dd>Ana Maída Dava (N.º 7)<br>Cecília Felix Soto (N.º 14)<br>Celina Acacio Nguambi (N.º 15)<br>Constância Narciso Tovele (N.º 17)<br>Nélia Marcos Dava (N.º 39)<br>Raimina Gabriel Mutambe (N.º 44)</dd>
+        </dl>
+      </aside>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">Escola Secundária Marien Ngouabi · Disciplina de TIC · 12ª Classe · Turma B03 · III Trimestre (2026) · Prof. Lázaro Jr<br><br>Grupo: Ana Maída Dava (N.º 7) · Cecília Felix Soto (N.º 14) · Celina Acacio Nguambi (N.º 15) · Constância Narciso Tovele (N.º 17) · Nélia Marcos Dava (N.º 39) · Raimina Gabriel Mutambe (N.º 44)</div>
+</footer>
+
+<script>
+(function () {
+  var ids = ["inicio", "conteudo", "galeria", "contacto"];
+  var views = ids.map(function (id) { return document.getElementById(id); });
+  var links = document.querySelectorAll("nav a");
+
+  function mostrar(id, guardar) {
+    if (ids.indexOf(id) < 0) id = "inicio";
+    views.forEach(function (v) { v.hidden = v.id !== id; });
+    links.forEach(function (a) {
+      if (a.getAttribute("href") === "#" + id) a.setAttribute("aria-current", "page");
+      else a.removeAttribute("aria-current");
+    });
+    window.scrollTo(0, 0);
+    if (guardar) {
+      try { history.replaceState(null, "", "#" + id); } catch (e) {}
+    }
+  }
+
+  // Cada link interno (menu, logótipo, botões e cartões) abre a secção por clique,
+  // sem depender do endereço da página.
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var id = a.getAttribute("href").slice(1);
+    if (ids.indexOf(id) < 0) return;
+    e.preventDefault();
+    mostrar(id, true);
+  });
+
+  window.addEventListener("hashchange", function () {
+    mostrar((location.hash || "#inicio").slice(1), false);
+  });
+  mostrar((location.hash || "#inicio").slice(1), false);
+
+  var form = document.getElementById("form");
+  var thanks = document.getElementById("obrigado");
+  var campos = [
+    { id: "nome", msg: "Escreva o seu nome." },
+    { id: "email", msg: "Escreva um e-mail válido, por exemplo nome@exemplo.com." },
+    { id: "mensagem", msg: "Escreva a sua mensagem." }
+  ];
+
+  function validar() {
+    var ok = true;
+    campos.forEach(function (c) {
+      var el = document.getElementById(c.id);
+      var erro = document.getElementById("erro-" + c.id);
+      var v = el.value.trim();
+      var bom = v.length > 0;
+      if (c.id === "email") bom = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      el.setAttribute("aria-invalid", bom ? "false" : "true");
+      erro.textContent = bom ? "" : c.msg;
+      if (!bom) ok = false;
+    });
+    return ok;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!validar()) {
+      var primeiro = form.querySelector('[aria-invalid="true"]');
+      if (primeiro) primeiro.focus();
+      return;
+    }
+    var nome = document.getElementById("nome").value.trim();
+    document.getElementById("obrigado-titulo").textContent = "Obrigado, " + nome + "!";
+    form.hidden = true;
+    thanks.hidden = false;
+  });
+
+  document.getElementById("outra").addEventListener("click", function () {
+    form.reset();
+    campos.forEach(function (c) {
+      document.getElementById(c.id).setAttribute("aria-invalid", "false");
+      document.getElementById("erro-" + c.id).textContent = "";
+    });
+    thanks.hidden = true;
+    form.hidden = false;
+    document.getElementById("nome").focus();
+  });
+})();
+</script>
+
+</body>
+</html>
